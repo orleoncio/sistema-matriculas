@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso ao Sistema</title>
+    <!-- Carrega Tailwind CSS CDN para estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define a fonte Inter como padrão e fundo */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Fundo cinza claro */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+<div class="w-full max-w-md bg-white p-8 md:p-10 rounded-xl shadow-2xl space-y-6">
+
+    <h2 class="text-3xl font-extrabold text-gray-900 text-center">
+        Acessar o Sistema de Matrículas
+    </h2>
+
+    <!-- 💡 MENSAGEM DE ERRO: Aparece se houver o parâmetro 'error' na URL (falha de login) -->
+    <div th:if="${param.error}" class="p-3 rounded-lg bg-red-100 border border-red-400 text-red-700 text-sm font-semibold text-center">
+        <p>Login ou senha incorretos. Tente novamente.</p>
+    </div>
+
+    <!-- Formulário de Login -->
+    <!-- A action é /login, que é processada pelo Spring Security -->
+    <form th:action="@{/login}" method="POST" class="space-y-6">
+
+        <!-- Campo LOGIN -->
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">Login</label>
+            <input type="text"
+                   id="username"
+                   name="username"
+                   required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Seu nome de usuário"
+            />
+        </div>
+
+        <!-- Campo SENHA -->
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
+            <input type="password"
+                   id="password"
+                   name="password"
+                   required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Sua senha"
+            />
+        </div>
+
+        <!-- Token CSRF -->
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" th:if="${_csrf}" />
+
+        <!-- Botão de Submissão -->
+        <div>
+            <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                Entrar
+            </button>
+        </div>
+    </form>
+
+    <!-- Link para a página de Registro -->
+    <div class="text-center text-sm">
+        Não tem uma conta?
+        <a th:href="@{/usuarios/register}" class="font-medium text-indigo-600 hover:text-indigo-500">
+            Crie uma conta aqui.
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

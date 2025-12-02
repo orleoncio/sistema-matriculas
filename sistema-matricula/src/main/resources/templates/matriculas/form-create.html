@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Matrícula</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }</style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+<div class="w-full max-w-lg bg-white p-8 md:p-10 rounded-xl shadow-2xl space-y-6">
+    <h2 class="text-3xl font-extrabold text-gray-900 text-center">Nova Matrícula</h2>
+
+    <form th:action="@{/matriculas/criar}" th:object="${matriculaDto}" method="POST" class="space-y-6">
+
+        <!-- Seleção de Aluno (O Controller deve enviar 'listaAlunos') -->
+        <div>
+            <label for="alunoId" class="block text-sm font-medium text-gray-700">Aluno</label>
+            <select id="alunoId" name="alunoId" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="" disabled selected>Selecione um Aluno</option>
+                <!-- Itera sobre a lista de alunos vinda do controller -->
+                <option th:each="aluno : ${listaAlunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
+            </select>
+        </div>
+
+        <!-- Seleção de Disciplina (O Controller deve enviar 'listaDisciplinas') -->
+        <div>
+            <label for="disciplinaId" class="block text-sm font-medium text-gray-700">Disciplina</label>
+            <select id="disciplinaId" name="disciplinaId" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="" disabled selected>Selecione uma Disciplina</option>
+                <option th:each="disc : ${listaDisciplinas}" th:value="${disc.id}" th:text="${disc.nome}"></option>
+            </select>
+        </div>
+
+        <div>
+            <label for="dataMatricula" class="block text-sm font-medium text-gray-700">Data da Matrícula</label>
+            <input type="date" id="dataMatricula" name="dataMatricula" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+        </div>
+
+        <!-- Enum de Situação -->
+        <div>
+            <label for="situacao" class="block text-sm font-medium text-gray-700">Situação</label>
+            <select id="situacao" name="situacao" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="CURSANDO">Cursando</option>
+                <option value="APROVADO">Aprovado</option>
+                <option value="REPROVADO">Reprovado</option>
+                <option value="TRANCADO">Trancado</option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">Realizar Matrícula</button>
+        </div>
+    </form>
+    <div class="text-center text-sm mt-4">
+        <a th:href="@{/matriculas}" class="font-medium text-indigo-600 hover:text-indigo-500">Voltar</a>
+    </div>
+</div>
+</body>
+</html>

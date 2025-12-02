@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Aluno</title>
+    <!-- Carrega Tailwind CSS CDN para estilização --><script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+<div class="w-full max-w-lg bg-white p-8 md:p-10 rounded-xl shadow-2xl space-y-6">
+
+    <h2 class="text-3xl font-extrabold text-gray-900 text-center">
+        Editar Aluno: <span th:text="*{alunoDto.nome}">Nome do Aluno</span>
+    </h2>
+
+    <!-- Mensagem de sucesso ou erro, se houver -->
+    <div th:if="${mensagemSucesso}" class="p-3 rounded-lg bg-green-100 border border-green-400 text-green-700 text-sm font-semibold text-center">
+        <p th:text="${mensagemSucesso}"></p>
+    </div>
+
+    <!-- 🚨 FORMULÁRIO DE ATUALIZAÇÃO 🚨 -->
+    <!-- O formulário envia para /alunos/{id} e usa um método HTTP simulado "PUT" -->
+    <form th:action="@{/alunos/atualizar/{id}(id=${alunoDto.id})}" th:object="${alunoDto}" method="POST" class="space-y-6">
+
+        <!-- Campo Oculto para simular PUT via Thymeleaf -->
+        <!-- O Spring MVC reconhece o campo _method e trata a requisição como PUT ou PATCH -->
+        <input type="hidden" name="_method" value="PUT" />
+
+        <!-- Campo NOME -->
+        <div>
+            <label for="nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+            <!-- O th:field preenche o campo automaticamente com o valor do objeto 'alunoDto' -->
+            <input type="text"
+                   id="nome"
+                   th:field="*{nome}"
+                   required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Ex: Maria da Silva"
+            />
+        </div>
+
+        <!-- Campo MATRÍCULA (Geralmente não editável, mas incluído para completude) -->
+        <div>
+            <label for="matricula" class="block text-sm font-medium text-gray-700">Número de Matrícula</label>
+            <input type="text"
+                   id="matricula"
+                   th:field="*{matricula}"
+                   required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Ex: 20240001"
+            />
+        </div>
+
+        <!-- Campo EMAIL -->
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email"
+                   id="email"
+                   th:field="*{email}"
+                   required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                   placeholder="Ex: aluno@exemplo.com"
+            />
+        </div>
+
+        <!-- Campo DATA DE NASCIMENTO -->
+        <div>
+            <label for="dataNascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
+            <!-- Observação: Datas devem ser formatadas no DTO ou na Entity para preenchimento correto -->
+            <input type="date"
+                   id="dataNascimento"
+                   th:field="*{dataNascimento}"
+                   required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+        </div>
+
+        <!-- Campo STATUS -->
+        <div>
+            <label for="status" class="block text-sm font-medium text-gray-700">Status do Aluno</label>
+            <!-- O th:field preenche a opção correta 'Ativo' ou 'Inativo' automaticamente, baseado no valor Boolean -->
+            <select id="status"
+                    th:field="*{status}"
+                    required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="ATIVO">Ativo</option>
+                <option value="INATIVO">Inativo</option>
+            </select>
+        </div>
+
+        <!-- Token CSRF --><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" th:if="${_csrf}" />
+
+        <!-- Botão de Submissão -->
+        <div>
+            <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                Salvar Alterações
+            </button>
+        </div>
+    </form>
+
+    <!-- Link para Voltar à Lista --><div class="text-center text-sm mt-4">
+    <a th:href="@{/alunos}" class="font-medium text-indigo-600 hover:text-indigo-500">
+        Cancelar e Voltar
+    </a>
+</div>
+</div>
+
+</body>
+</html>

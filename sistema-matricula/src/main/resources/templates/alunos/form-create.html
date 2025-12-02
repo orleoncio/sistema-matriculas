@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastrar Novo Aluno</title>
+  <!-- Carrega Tailwind CSS CDN para estilização --><script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+<div class="w-full max-w-lg bg-white p-8 md:p-10 rounded-xl shadow-2xl space-y-6">
+
+  <h2 class="text-3xl font-extrabold text-gray-900 text-center">
+    Cadastrar Novo Aluno
+  </h2>
+
+  <!-- 💡 MENSAGEM DE SUCESSO: Aparece após um redirecionamento bem-sucedido de POST --><div th:if="${mensagemSucesso}" class="p-3 rounded-lg bg-green-100 border border-green-400 text-green-700 text-sm font-semibold text-center">
+  <p th:text="${mensagemSucesso}"></p>
+</div>
+
+  <!-- Formulário de Cadastro --><!-- O th:object="${alunoDto}" se refere ao objeto 'alunoDto' adicionado no Model pelo Controller --><form th:action="@{/alunos/criar}" th:object="${alunoDto}" method="POST" class="space-y-6">
+
+  <!-- Campo NOME --><div>
+  <label for="nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+  <input type="text"
+         id="nome"
+         name="nome"
+         required
+         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+         placeholder="Ex: Maria da Silva"
+  />
+  <!-- 💡 Adicionar validação de erro aqui no futuro (th:errors) --></div>
+
+  <!-- Campo MATRÍCULA --><div>
+  <label for="matricula" class="block text-sm font-medium text-gray-700">Número de Matrícula</label>
+  <input type="text"
+         id="matricula"
+         name="matricula"
+         required
+         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+         placeholder="Ex: 20240001 (Gerado automaticamente?)"
+  />
+  <!-- 💡 Adicionar validação de erro aqui no futuro --></div>
+
+  <!-- Campo EMAIL --><div>
+  <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+  <input type="email"
+         id="email"
+         name="email"
+         required
+         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+         placeholder="Ex: aluno@exemplo.com"
+  />
+  <!-- 💡 Adicionar validação de erro aqui no futuro --></div>
+
+  <!-- Campo DATA DE NASCIMENTO --><div>
+  <label for="dataNascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
+  <input type="date"
+         id="dataNascimento"
+         name="dataNascimento"
+         required
+         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+  />
+  <!-- 💡 Adicionar validação de erro aqui no futuro --></div>
+
+  <!-- NOVO CAMPO STATUS -->
+  <div>
+    <label for="status" class="block text-sm font-medium text-gray-700">Status do Aluno</label>
+    <select id="status"
+            name="status"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <!-- Opções de Status (Valores enviados ao DTO) -->
+      <option value="ATIVO">Ativo</option>
+      <option value="INATIVO">Inativo</option>
+    </select>
+  </div>
+
+  <!-- Token CSRF --><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" th:if="${_csrf}" />
+
+  <!-- Botão de Submissão --><div>
+  <button type="submit"
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+    Cadastrar Aluno
+  </button>
+</div>
+</form>
+
+  <!-- Link para Voltar à Lista --><div class="text-center text-sm">
+  <a th:href="@{/alunos}" class="font-medium text-indigo-600 hover:text-indigo-500">
+    Voltar para a lista de alunos
+  </a>
+</div>
+</div>
+
+</body>
+</html>

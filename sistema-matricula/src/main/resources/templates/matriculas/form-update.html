@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Matrícula</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }</style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+<div class="w-full max-w-lg bg-white p-8 md:p-10 rounded-xl shadow-2xl space-y-6">
+    <h2 class="text-3xl font-extrabold text-gray-900 text-center">Editar Matrícula</h2>
+
+    <form th:action="@{/matriculas/atualizar/{id}(id=${idDaMatricula})}" th:object="${matriculaDto}" method="POST" class="space-y-6">
+        <input type="hidden" name="_method" value="PUT" />
+
+        <!-- Em edição, geralmente não mudamos Aluno/Disciplina, mas se permitir, use selects como no create -->
+        <!-- Aqui estou assumindo que pode editar a nota e a situação -->
+
+        <!-- Apenas exibição (campos readonly ou hidden se não puder mudar) -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Aluno ID (Fixo)</label>
+            <input type="text" th:field="*{aluno.nome}" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md sm:text-sm"/>
+        </div>
+
+        <div>
+            <label for="situacao" class="block text-sm font-medium text-gray-700">Situação</label>
+            <select id="situacao" th:field="*{situacao}" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="CURSANDO">Cursando</option>
+                <option value="APROVADO">Aprovado</option>
+                <option value="REPROVADO">Reprovado</option>
+                <option value="TRANCADO">Trancado</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="notaFinal" class="block text-sm font-medium text-gray-700">Nota Final</label>
+            <input type="number" id="notaFinal" th:field="*{notaFinal}" step="0.1" min="0" max="10" placeholder="Ex: 8.5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+        </div>
+
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150">Atualizar</button>
+        </div>
+    </form>
+    <div class="text-center text-sm mt-4">
+        <a th:href="@{/matriculas}" class="font-medium text-indigo-600 hover:text-indigo-500">Cancelar</a>
+    </div>
+</div>
+</body>
+</html>
